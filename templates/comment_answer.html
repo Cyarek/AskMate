@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block body %}
+    <p>{{ answer_data['title'] }}</p>
+    <p>{{ answer_data['message'] }}</p>
+    <p>{{ answer_data['vote_number'] }}</p>
+
+    <h3>Add comment:</h3>
+
+    <form action="{{ url_for('comment_answer', question_id=answer_data['question_id'], answer_id=answer_data['id']) }}"
+          method="post"
+          enctype="multipart/form-data"
+          id="add_comment_form">
+        <label>
+            Add comment:
+            <textarea name="message"></textarea>
+        </label>
+        <input type="submit">
+    </form>
+
+
+
+{% endblock %}

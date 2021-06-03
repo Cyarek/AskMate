@@ -1,0 +1,334 @@
+{% extends 'base.html' %}
+{% block body %}
+    <div class="box question">
+        <div class="box_title">
+            <p>{{ question_data['title'] }}</p>
+        </div>
+        <div class="date">
+            {{ question_data['submission_time'] }}
+        </div>
+        <div class="box_message">
+            {{ question_data['message'] }}
+            {% if question_data.image %}
+                {{ question_data.image }}
+            {% endif %}
+        </div>
+        {#                <div class="question_image">#}
+        {#                    <img alt="" src="{{ url_for('static',#}
+        {#                                        filename=question_data['image']) }}"/>#}
+        {##}
+        {#                </div>#}
+        <div class="box_edit_delete">
+            <div class="edit">
+                <a href="{{ url_for('edit_question',
+                                     question_id=question_data.id) }}">
+                    <img alt=""
+                         src="{{ url_for('static', filename="edit.svg") }}"
+                         class="svg"/>
+                </a>
+            </div>
+            <div class="delete">
+                <a href="{{ url_for("delete_question", question_id=question_data['id']) }}"
+                   onclick="return confirm('Are you sure?')">
+                    <img alt=""
+                         src="{{ url_for('static', filename="trash.svg") }}"
+                         class="svg"/>
+                </a>
+            </div>
+        </div>
+        <div class="box_vote">
+
+            {% if user %}
+                <div>
+                    <a href="{{ url_for('vote_question',
+                                        question_id=question_data.id,
+                                        up_or_down='1') }}">
+                        <img alt=""
+                             src="{{ url_for('static', filename="thumb-up.svg") }}"
+                             class="svg"/>
+                    </a>
+                </div>
+                <div>
+                    <a href="{{ url_for('vote_question',
+                                        question_id=question_data.id,
+                                        up_or_down='-1') }}">
+                        <img alt=""
+                             src="{{ url_for('static', filename="thumb-down.svg") }}"
+                             class="svg"/>
+                    </a>
+                </div>
+            {% else %}
+                <div>
+                    <img alt=""
+                         src="{{ url_for('static', filename="thumb-up.svg") }}"
+                         class="svg"/>
+                </div>
+                <div>
+                    <img alt=""
+                         src="{{ url_for('static', filename="thumb-down.svg") }}"
+                         class="svg"/>
+                </div>
+            {% endif %}
+            <div></div>
+            <div>{{ question_data['vote_number'] }}</div>
+        </div>
+        <div class="author">
+            author: {{ question_data.user_name }}
+        </div>
+    </div>
+
+    {% if user %}
+        <span><a href="{{ url_for('comment_question', question_id=question_data['id']) }}">
+            <button>add comment</button> {# add comment for question #}
+        </a></span>
+    {% else %}
+        <span>
+            <button class="grey_button_section">add comment</button>
+        </span>
+    {% endif %}
+
+
+    <h3>Comments for question:</h3>
+
+
+    {% for comment in comments_for_question %}
+        <div class="box comment_for_question">
+            <div class="box_title">
+
+            </div>
+            <div class="date">
+                {{ comment['submission_time'] }}
+            </div>
+            <div class="box_message">
+                {{ comment.message }}
+            </div>
+            <div class="box_edit_delete">
+                <div class="edit">
+                    <a href="{{ url_for('edit_comment_for_question', comment_id=comment.id) }}">
+                        <img alt=""
+                             src="{{ url_for('static', filename="edit.svg") }}"
+                             class="svg"/>
+                    </a>
+                </div>
+                <div class="delete">
+                    <a href="{{ url_for('delete_comment', comment_id=comment['id']) }}"
+                       onclick="return confirm('Are you sure?')">
+                        <img alt=""
+                             src="{{ url_for('static', filename="trash.svg") }}"
+                             class="svg"/>
+                    </a>
+                </div>
+            </div>
+            <div class="box_vote">
+                {% if user %}
+                    <div>
+                        <a href="{{ url_for('vote_comment',
+                                        comment_id=comment.id,
+                                        question_id=question_data.id,
+                                        up_or_down='1') }}">
+                            <img alt=""
+                                 src="{{ url_for('static', filename="thumb-up.svg") }}"
+                                 class="svg"/>
+                        </a>
+                    </div>
+                    <div>
+                        <a href="{{ url_for('vote_comment',
+                                        comment_id=comment.id,
+                                        question_id=question_data.id,
+                                        up_or_down='-1') }}">
+                            <img alt=""
+                                 src="{{ url_for('static', filename="thumb-down.svg") }}"
+                                 class="svg"/>
+                        </a>
+                    </div>
+                {% else %}
+                    <div>
+                        <img alt=""
+                             src="{{ url_for('static', filename="thumb-up.svg") }}"
+                             class="svg"/>
+                    </div>
+                    <div>
+                        <img alt=""
+                             src="{{ url_for('static', filename="thumb-down.svg") }}"
+                             class="svg"/>
+                    </div>
+                {% endif %}
+                <div></div>
+                <div>{{ comment.vote_number }}</div>
+            </div>
+            <div class="author">
+                author: {{ comment.user_name }}
+            </div>
+        </div>
+    {% endfor %}
+
+
+    {% if user %}
+        <span><a href="{{ url_for('add_answer', question_id=question_data['id']) }}">
+            <button>add answer</button> {# add answer #}
+        </a></span>
+    {% else %}
+        <span>
+            <button class="grey_button_section">add answer</button>
+        </span>
+    {% endif %}
+
+
+    <h3>Answers:</h3>
+
+
+    {% for answer in answers %}
+        <div class="box answer">
+            <div class="box_title">
+                {# blank #}
+            </div>
+            <div class="date">
+                {{ answer['submission_time'] }}
+            </div>
+            <div class="box_message">
+                {{ answer['message'] }}
+            </div>
+            <div class="box_edit_delete">
+                <div class="edit">
+                    <a href="{{ url_for('edit_answer', answer_id=answer.id) }}">
+                        <img alt=""
+                             src="{{ url_for('static', filename="edit.svg") }}"
+                             class="svg"/>
+                    </a>
+                </div>
+                <div class="delete">
+                    <a href="{{ url_for('delete_answer', answer_id=answer.id) }}">
+                        <img alt=""
+                             src="{{ url_for('static', filename="trash.svg") }}"
+                             class="svg"/>
+                    </a>
+                </div>
+            </div>
+            <div class="box_vote">
+                {% if user %}
+                    <div>
+                        <a href="{{ url_for('vote_answer',
+                                            answer_id=answer.id,
+                                            question_id=question_data.id,
+                                            up_or_down='1') }}">
+                            <img alt=""
+                                 src="{{ url_for('static', filename="thumb-up.svg") }}"
+                                 class="svg"/>
+                        </a>
+                    </div>
+                    <div>
+                        <a href="{{ url_for('vote_answer',
+                                            answer_id=answer.id,
+                                            question_id=question_data.id,
+                                            up_or_down='-1') }}">
+                            <img alt=""
+                                 src="{{ url_for('static', filename="thumb-down.svg") }}"
+                                 class="svg"/>
+                        </a>
+                    </div>
+                {% else %}
+                    <div>
+                        <img alt=""
+                             src="{{ url_for('static', filename="thumb-up.svg") }}"
+                             class="svg"/>
+                    </div>
+                    <div>
+                        <img alt=""
+                             src="{{ url_for('static', filename="thumb-down.svg") }}"
+                             class="svg"/>
+                    </div>
+                {% endif %}
+                <div></div>
+                <div> {{ answer['vote_number'] }}</div>
+            </div>
+            <div class="author">
+                author: {{ answer.user_name }}
+            </div>
+        </div>
+
+
+        {% if user %}
+            <span><a href="{{ url_for('comment_answer',
+                                       question_id=question_data.id,
+                                       answer_id=answer.id) }}">
+            <button>add comment</button> {# add comment for answer #}
+            </a></span>
+        {% else %}
+            <span>
+            <button class="grey_button_section">add comment</button>
+        </span>
+        {% endif %}
+
+        {% for comment in comments_for_answers_dict[answer.id] %}
+            <div class="box comment_for_answer">
+                <div class="box_title">
+
+                </div>
+                <div class="date">
+                    {{ comment['submission_time'] }}
+                </div>
+                <div class="box_message">
+                    {{ comment['message'] }}
+                </div>
+                <div class="box_edit_delete">
+                    <div class="edit">
+                        <a href="{{ url_for('edit_comment_for_answer', comment_id=comment.id) }}">
+                            <img alt=""
+                                 src="{{ url_for('static', filename="edit.svg") }}"
+                                 class="svg"/>
+                        </a>
+                    </div>
+                    <div class="delete">
+                        <a href="{{ url_for('delete_comment', comment_id=comment['id']) }}"
+                           onclick="return confirm('Are you sure?')">
+                            <img alt=""
+                                 src="{{ url_for('static', filename="trash.svg") }}"
+                                 class="svg"/>
+                        </a>
+                    </div>
+                </div>
+                <div class="box_vote">
+                    {% if user %}
+                        <div>
+                            <a href="{{ url_for('vote_comment',
+                                        comment_id=comment.id,
+                                        question_id=question_data.id,
+                                        up_or_down='1') }}">
+                                <img alt=""
+                                     src="{{ url_for('static', filename="thumb-up.svg") }}"
+                                     class="svg"/>
+                            </a>
+                        </div>
+                        <div>
+                            <a href="{{ url_for('vote_comment',
+                                        comment_id=comment.id,
+                                        question_id=question_data.id,
+                                        up_or_down='-1') }}">
+                                <img alt=""
+                                     src="{{ url_for('static', filename="thumb-down.svg") }}"
+                                     class="svg"/>
+                            </a>
+                        </div>
+                    {% else %}
+                        <div>
+                            <img alt=""
+                                 src="{{ url_for('static', filename="thumb-up.svg") }}"
+                                 class="svg"/>
+                        </div>
+                        <div>
+                            <img alt=""
+                                 src="{{ url_for('static', filename="thumb-down.svg") }}"
+                                 class="svg"/>
+                        </div>
+                    {% endif %}
+                    <div></div>
+                    <div>{{ comment.vote_number }}</div>
+                </div>
+                <div class="author">
+                    author: {{ comment.user_name }}
+                </div>
+            </div>
+        {% endfor %}
+    {% endfor %}
+
+{% endblock %}

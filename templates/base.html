@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="container">
+    <header>
+        <div class="header">
+            <div>
+                <h2>
+                    <a href="{{ url_for('index') }}" id="homepage">home page</a>
+                </h2>
+                <p class=hello>
+                    {% if user and user != 0 %}
+                        Hello {{ user.user_name }}
+                        <br>
+                        <a href="{{ url_for('user_page', user_id=user.user_id) }}">user page</a>
+                    {% elif user == 0 %}
+                        Fail to log in. Please, try again.
+                    {% endif %}
+                </p>
+            </div>
+            <div>
+                <form action="{{ url_for('search') }}"
+                      method="GET">
+                    <label>
+                        <input type="text"
+                               name="searched_phrase"
+                               autocomplete="off">
+                        <input type="submit"
+                               value="search">
+                    </label>
+                </form>
+            </div>
+            <div>
+                <img src="{{ url_for("static", filename="sample.png") }}"
+                     alt="Granny"
+                     id="homepage_picture">
+            </div>
+            <div onclick="location.href='{{ url_for('questions') }}'"
+                 class=active_button_header>
+                list of questions
+            </div>
+            {% if not user or user == 'fail' %}
+                <div onclick="location.href='{{ url_for('register') }}'"
+                     class=active_button_header>
+                    register
+                </div>
+            {% else %}
+                <div class=grey_button_header>
+                    register
+                </div>
+            {% endif %}
+            {% if user and user != 'fail' %}
+                <div onclick="location.href='{{ url_for('users') }}'"
+                     class=active_button_header>
+                    users
+                </div>
+            {% else %}
+                <div onclick="location.href=''"
+                     class=grey_button_header>
+                    users
+                </div>
+            {% endif %}
+            <div onclick="location.href=''"
+                 class=active_button_header>
+                about
+            </div>
+            {% if not user or user == 'fail' %}
+                <div onclick="location.href='{{ url_for('login') }}'"
+                     class=active_button_header>
+                    log in
+                </div>
+            {% else %}
+                <div onclick="location.href='{{ url_for('logout') }}'"
+                     class=active_button_header>
+                    log out
+                </div>
+            {% endif %}
+        </div>
+
+    </header>
+    <section>
+        {% block body %}
+
+        {% endblock body %}
+    </section>
+    <footer>
+        <p>
+            @2021
+        </p>
+    </footer>
+</div>
+</body>
+</html>

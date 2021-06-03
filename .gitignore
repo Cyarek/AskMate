@@ -1,0 +1,9 @@
+.idea/
+__pycache__/
+/.idea/
+venv/
+**/.idea
+**/__pycache__
+**/static/style.css.map
+__pycache__
+icomoon

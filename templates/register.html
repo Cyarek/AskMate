@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block body %}
+    {% if not registration %}
+        <form method="POST" action="{{ url_for('register') }}">
+            <h4>Please fill the forms:</h4>
+            <label>
+                name:
+                <br>
+                <input type="text"
+                       name="user_name"
+                       minlength="3"
+                       size="32"
+                       autocomplete="off">
+            </label>
+            <br>
+            <label>
+                email:
+                <br>
+                <input type="email"
+                       name="email_address"
+                       size="32"
+                       autocomplete="off">
+            </label>
+            <br>
+            <label>
+                password:
+                <br>
+                <input type="password"
+                       name="password"
+                       minlength="6"
+                       size="32"
+                       autocomplete="off">
+            </label>
+            <br>
+            <label>
+                repeat password:
+                <br>
+                <input type="password"
+                       name="password_2"
+                       minlength="6"
+                       size="32"
+                       autocomplete="off">
+            </label>
+            <br>
+            <input type="submit" value="register">
+
+        </form>
+    {% elif registration == 'incorrect_mail' %}
+        <h1>wrong email format! Please, provide the correct one.</h1>
+        <br>
+        <a href="{{ url_for('register') }}"
+           class="link"><h1>Try again</h1></a>
+    {% elif registration == 'already_in' %}
+        <h1>Name or email already in!</h1>
+        <br>
+        <a href="{{ url_for('register') }}"
+           class="link"><h1>Try again</h1></a>
+    {% endif %}
+{% endblock %}

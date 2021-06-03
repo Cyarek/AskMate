@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% block body %}
+    <div>
+        You searched for: <strong>{{ searched_phrase }}</strong>
+        <br><br>
+        {% if search_result_question_title %}
+            search result for question title
+            <ul>
+                {% for record in  search_result_question_title %}
+                    <li>{{ record }}</li>
+                {% endfor %}
+            </ul>
+            <br>
+        {% else %}
+            Nothing found in questions title
+            <br><br>
+        {% endif %}
+        <br>
+
+        {% if search_result_question_message %}
+            search result for question message
+            <ul>
+                {% for record in  search_result_question_message %}
+                    <li>{{ record }}</li>
+                {% endfor %}
+            </ul>
+            <br>
+        {% else %}
+            Nothing found in questions message
+            <br><br>
+        {% endif %}
+        <br>
+
+        {% if search_result_answer_message %}
+            search result for answer message
+            <ul>
+                {% for record in  search_result_answer_message %}
+                    <li>{{ record }}</li>
+                {% endfor %}
+            </ul>
+            <br><br>
+        {% else %}
+            Nothing found in answers message
+            <br><br>
+        {% endif %}
+        <br>
+
+        {% if search_result_comment_message %}
+            search result for comment message
+            <ul>
+                {% for record in  search_result_comment_message %}
+                    <li>{{ record }}</li>
+                {% endfor %}
+            </ul>
+            <br>
+        {% else %}
+            Nothing found in comment message
+            <br><br>
+        {% endif %}
+        <br>
+    </div>
+{% endblock %}

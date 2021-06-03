@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block body %}
+    {% if not user and login != 0 %}
+        <form method="POST" action="{{ url_for('login') }}">
+
+            <h4>Please fill the forms:</h4>
+            <label>
+                name:
+                <br>
+                <input type="text"
+                       name="user_name"
+                       autocomplete="off">
+            </label>
+            <br>
+            <label>
+                password:
+                <br>
+                <input type="password"
+                       name="password"
+                       autocomplete="off">
+            </label>
+            <br>
+            <input type="submit" value="log in">
+
+        </form>
+    {% elif login == 0 %}
+        <form method="POST" action="{{ url_for('login') }}">
+
+            <h4>Please fill the forms:</h4>
+            <label>
+                name:
+                <br>
+                <input type="text"
+                       name="user_name"
+                       autocomplete="off">
+            </label>
+            <br>
+            <label>
+                password:
+                <br>
+                <input type="password"
+                       name="password"
+                       autocomplete="off">
+            </label>
+            <br>
+            <input type="submit" value="log in">
+
+        </form>
+        <h1>No user with that name!
+            <br>
+            Please, try again.</h1>
+    {% else %}
+        <h1>Hey! You're already logged in!
+            <br>
+            What are you doing here?</h1>
+    {% endif %}
+{% endblock %}

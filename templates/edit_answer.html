@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block body %}
+    <p>{{ question_dictionary['title'] }}</p>
+    <p>{{ question_dictionary['message'] }}</p>
+    <p>{{ question_dictionary['vote_number'] }}</p>
+
+    <br><br>
+
+    <h3>Edit answer:</h3>
+
+    <form action="{{ url_for('edit_answer', answer_id=answer_data['id']) }}"
+          method="post"
+          enctype="multipart/form-data"
+          id="add_answer_form">
+        <label>
+            New answer:
+            <textarea name="message">{{ answer_data['message'] }}</textarea>
+        </label>
+        <input type="file" name="image">
+        <input type="submit">
+    </form>
+
+
+
+{% endblock %}

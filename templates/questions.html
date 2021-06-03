@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block body %}
+    <div>
+        <form method='POST'
+              action="{{ url_for('sort_questions') }}">
+            <label>Sort by:
+                <select name="sort_question">
+                    <option value="Title">Title</option>
+                    <option value="Vote_number">Vote number</option>
+                    <option value="View_number">View number</option>
+                    <option value="Submission_time">Submission time</option>
+                </select>
+            </label>
+            <label>Order:
+                <select name="by_order">
+                    <option value="asc">ASC</option>
+                    <option value="desc">DESC</option>
+                </select>
+            </label>
+            <input type="submit" value="Sort">
+        </form>
+    </div>
+
+
+    {% for question in questions_data %}
+        <p class="questions" onclick="location.href='/question/{{ question.id }}'">
+            {{ question['title'] }}
+            <br>
+            <em>
+
+                {{ question.submission_time }} --- views: {{ question.view_number }}
+            </em>
+            <br>
+            author: {{ question.user_name }}
+        </p>
+    {% endfor %}
+
+    {% if user %}
+        <span><a href="{{ url_for('add_question') }}">
+                <button>add question</button>
+            </a></span>
+    {% else %}
+        <span>
+            <button class="grey_button_section">add question</button>
+        </span>
+    {% endif %}
+{% endblock %}

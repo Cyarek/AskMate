@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block body %}
+    {% if user %}
+        <h2>users listed</h2>
+
+        <table class=users_table>
+            <thead>
+            <tr>
+                <th>user name</th>
+                <th>registration date</th>
+                <th>Count of asked questions</th>
+                <th>Count of answers</th>
+                <th>Count of comments</th>
+                <th>reputation</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>sample name</td>
+                <td>sample registration date</td>
+                <td>sample Count of asked questions</td>
+                <td>sample Count of answers</td>
+                <td>sample Count of comments</td>
+                <td>sample reputation</td>
+            </tr>
+            {% for row in users_data %}
+                <tr>
+                    <td>{{ row.user_name }}</td>
+                    <td>{{ row.registration_date }}</td>
+                    <td>{{ row.count_question }}</td>
+                    <td>{{ row.count_answer }}</td>
+                    <td>{{ row.count_comment }}</td>
+                    <td>{{ row.reputation }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+{% endblock %}
